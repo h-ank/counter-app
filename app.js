@@ -4,22 +4,11 @@ const abi = [
     "function increment() public"
 ];
 
-function displayCount(count) {
-    const countSpan = document.getElementById("count");
-    countSpan.innerHTML = "";
-    for (let i = 0; i < count; i++) {
-        countSpan.innerHTML += "🍎 ";
-    }
-    if (count === 0) {
-        countSpan.innerHTML = "No apples yet!";
-    }
-}
-
 async function updateCount() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const contract = new ethers.Contract(contractAddress, abi, provider);
     const count = await contract.count();
-    displayCount(Number(count));
+    document.getElementById("count").innerText = count.toString();
 }
 
 async function increment() {
@@ -36,5 +25,4 @@ async function increment() {
     updateCount();
 }
 
-window.onload = updateCount;
 window.onload = updateCount;
