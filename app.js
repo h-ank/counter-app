@@ -16,7 +16,7 @@ function displayCount(count) {
 }
 
 async function updateCount() {
-    const provider = new ethers.BrowserProvider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const contract = new ethers.Contract(contractAddress, abi, provider);
     const count = await contract.count();
     displayCount(Number(count));
@@ -27,14 +27,14 @@ async function increment() {
         alert("Please install MetaMask!");
         return;
     }
-    const provider = new ethers.BrowserProvider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
-    const signer = await provider.getSigner();
+    const signer = provider.getSigner();
     const contract = new ethers.Contract(contractAddress, abi, signer);
     const tx = await contract.increment();
     await tx.wait();
     updateCount();
 }
 
-// Load count when page opens
+window.onload = updateCount;
 window.onload = updateCount;
